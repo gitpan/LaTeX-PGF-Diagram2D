@@ -1,0 +1,13 @@
+Changes
+Makefile.PL
+MANIFEST
+README
+t/LaTeX-PGF-Diagram2D.t
+lib/LaTeX/PGF/Diagram2D.pm
+lib/LaTeX/PGF/Diagram2D/Axis.pm
+lib/LaTeX/PGF/Diagram2D/Label.pm
+lib/LaTeX/PGF/Diagram2D/NumberPrinter.pm
+lib/LaTeX/PGF/Diagram2D/Plot.pm
+lib/LaTeX/PGF/Diagram2D/Polyline.pm
+lib/LaTeX/PGF/Diagram2D/Xspline.pm
+META.yml                                 Module meta-data (added by MakeMaker)
