@@ -363,3 +363,130 @@ sub set_color
 1;
 __END__
 
+=head1 NAME
+
+LaTeX::PGF::Diagram2D::Axis - Perl extension for drawing 2D diagrams (axis).
+
+=head1 SYNOPSIS
+
+  use LaTeX::PGF::Diagram2D;
+  
+  my $Uq = 1.0;
+  my $Ri = 4.0;
+  
+  sub I($)
+  {
+    my $RL = shift;
+    my $back = $Uq / ($Ri + $RL);
+    return $back;
+  }
+  
+  # 10 centimeters wide, 6 centimeters high 
+  my $d = LaTeX::PGF::Diagram2D->new(10.0, 6.0);
+  
+  $d->set_font_size(12.0);
+  
+  # R (on the x axis) is in the range 0 ... 10
+  $d->axis('b')->set_linear(0.0, 10.0)->set_grid_step(1.0)
+	       ->set_tic_step(1.0);
+  # I (on the y axis) is in the range 0 ... 0,3
+  $d->axis('l')->set_linear(0.0,  0.3)->set_grid_step(0.05)
+	       ->set_tic_step(0.1);
+  
+  my $p = $d->plot('b', 'l');
+  $p->set_xy_fct(\&I);
+  
+  $d->write("test001a.pgf");
+
+
+=head1 DESCRIPTION
+
+Each object of this class represents one axis of the diagram, either
+bottom, left, right or top axis.
+The object methods can be used to configure the axis:
+
+=head2 Axis values
+
+set_linear(min, max)
+
+sets a linear scale and assigns the specified minimum and maximum to the axis.
+
+set_logarithmic(min, max)
+
+uses a logarithmic scale. Both minimum and maximum must be positive.
+
+=head2 Grid and tics
+
+set_grid(step)
+
+chooses the step size for the grid. Negative values are used to disable the
+grid. A grid is only drawn for ``bottom'' and ``left'' axis.
+For linear axes the step is added to the minimum, and again... to find
+the values for grid positions.
+For logarithmic axes the step is used as a factor.
+
+set_tic_step(step)
+
+chooses the step size for showing scale values.
+
+=head2 Labels and units
+
+set_label(text)
+
+sets the axis label. Normally you should write this in LaTeX's math mode.
+
+set_unit(text)
+
+sets the text for the unit. Normally this is written upright.
+
+set_omit(number)
+
+decides whether or not to omit some scale values to free space to print
+the unit.
+
+Note: You must not omit scale value 0.
+
+set_color(color)
+
+sets the color for axis label and arrow. Choose a LaTeX color specification
+like ``blue'' or ``blue!50!black''.
+
+=head2 Distances and borders
+
+set_tic_offset(offset)
+setes the offset in cm between the canvas border and the right anchor of the
+scale value texts. For ``top'' and ``bottom'' axis this is the distance
+to the lower or upper text border.
+
+If you use the right y axis you will have to correct this offset in most
+cases.
+
+set_label_offset(offset)
+
+sets the offset between the canvas border and the center of the axis
+label.
+
+set_border(offset)
+
+sets the offset between canvas border and image border.
+
+=head1 EXPORT
+
+None by default.
+
+=head1 SEE ALSO
+
+=head1 AUTHOR
+
+Dirk Krause, E<lt>krause@localdomainE<gt>
+
+=head1 COPYRIGHT AND LICENSE
+
+Copyright (C) 2011 by Dirk Krause
+
+This library is free software; you can redistribute it and/or modify
+it under the same terms as Perl itself, either Perl version 5.12.3 or,
+at your option, any later version of Perl 5 you may have available.
+
+=cut
+

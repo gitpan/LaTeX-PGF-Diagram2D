@@ -1579,3 +1579,168 @@ sub set_range
 
 __END__
 
+
+=head1 NAME
+
+LaTeX::PGF::Diagram2D:: - Perl extension for drawing 2D diagrams (plot).
+
+=head1 SYNOPSIS
+
+  use LaTeX::PGF::Diagram2D;
+  
+  my $Uq = 1.0;
+  my $Ri = 4.0;
+  
+  sub I($)
+  {
+    my $RL = shift;
+    my $back = $Uq / ($Ri + $RL);
+    return $back;
+  }
+  
+  # 10 centimeters wide, 6 centimeters high 
+  my $d = LaTeX::PGF::Diagram2D->new(10.0, 6.0);
+  
+  $d->set_font_size(12.0);
+  
+  # R (on the x axis) is in the range 0 ... 10
+  $d->axis('b')->set_linear(0.0, 10.0)->set_grid_step(1.0)
+	       ->set_tic_step(1.0);
+  # I (on the y axis) is in the range 0 ... 0,3
+  $d->axis('l')->set_linear(0.0,  0.3)->set_grid_step(0.05)
+	       ->set_tic_step(0.1);
+  
+  my $p = $d->plot('b', 'l');
+  $p->set_xy_fct(\&I);
+  
+  $d->write("test001a.pgf");
+
+
+=head1 DESCRIPTION
+
+Each object of the LaTeX::PGF::Diagram2D::Plot class represents one curve
+or point set to plot. The object methods can be used to configure
+the plot.
+
+A LaTeX::PGF::Diagram2D::Plot object is created by calling a
+LaTeX::PGF::Diagram2D object's plot() or copy_plot() method.
+These methods create a new plot object and return a reference to it.
+
+=head2 Data sources
+
+set_xy_fct(fct [, derivative ])
+
+sets the function to plot. Whenever possible you should specify the function
+for the first derivative too.
+Both functions must be implemented in your Perl program as a sub taking
+one argument (x). The argument to set_xy_fct() is a reference to the sub.
+
+set_parametric_fct(min, max, xfct, yfct [, xderivative, yderivative ])
+
+chooses parametric plotting and sets the start and end value for the
+parameter. The current value of the parameter is given to the xfct and
+yfct function as argument to find coordinates and to xderivative and
+yderivative to find the first derivative of x and y.
+
+set_xy_points(arrayref)
+
+chooses plotting of values. The argument to this function is an array
+reference. Each array entry is a reference to an array containing the
+coordinates of one point and optionally the first derivative in the point.
+
+I<Note:> For set_xy_points(), set_xy_points_text() and set_xy_points_file()
+the points must be sorted by rising x!
+
+set_xy_points_text(text)
+
+chooses plotting of values. The values are obtained from a text string.
+Each line is either empty or contains the data for one
+point: x value, y value and optionally dy/dx.
+
+set_xy_points_file(filename)
+
+chooses plotting of values. The values are obtained from a text file. Each
+line is either empty or contains data for one point:
+x value, y value and optionally dy/dx.
+
+set_xsplines_points(arrayref [, s_default ])
+
+chooses X-spline plotting. The argument to this function is a reference to an
+array containing control point data. For each control point there is one
+reference to an array. The control point array contains x value, y value
+and optionally an s value. If the s value is omitted the default value
+s_default is used or -1 if no s_default value was specified.
+
+set_xsplines_points_text(text [, s_default ])
+
+chooses X-spline plotting. Point values are obtained from a text string,
+each line is either empty or contains one control point:
+x value, y value and optionally s value.
+
+set_xsplines_points_file(filename [, s_default ])
+
+chooses X-spline plotting. Point values are obtained from a text file.
+Each line in the file is either empty or contains one control point:
+x value, y value and optionally s value.
+
+set_xsplines_number(number)
+
+sets the number of Bezier spline segments to create per X-spline segment.
+X-splines are 5th grade curves, Bezier splines are 3rd grade curves.
+So we use multiple Bezier spline segments to draw one X-spline segment.
+Normally the default 8 is sufficient.
+
+=head2 Configuring output
+
+set_intervals(number)
+
+specifies the number of curve intervals to print (for xy function plotting
+and parametric function plotting).
+
+set_curve()
+
+sets output style to curve.
+
+set_lines()
+
+sets output style to polyline.
+
+set_dots( [ style [, size ]])
+
+sets output style to dots and chooses a style (``circle'', ``square'',
+``diamond'', ``triangle'', ``crosshair'' or ``pentagon'') and dot size.
+The dot size is specified as multiples of the line size (default: 5).
+
+set_color(color)
+
+chooses a color for the plot.
+
+=head2 Preparing output
+
+finish()
+
+caluculates function and derivative values for function plotting
+immediately. This is useful if your function uses a Perl variable as
+function parameter and you want to change the variable.
+
+
+=head1 EXPORT
+
+None by default.
+
+=head1 SEE ALSO
+
+=head1 AUTHOR
+
+Dirk Krause, E<lt>krause@localdomainE<gt>
+
+=head1 COPYRIGHT AND LICENSE
+
+Copyright (C) 2011 by Dirk Krause
+
+This library is free software; you can redistribute it and/or modify
+it under the same terms as Perl itself, either Perl version 5.12.3 or,
+at your option, any later version of Perl 5 you may have available.
+
+=cut
+

@@ -16,6 +16,12 @@ To install this module type the following:
    make
    make install
 
+To build the documentation run
+
+  ./build-docu.sh
+
+This generates the files diagram-en.pdf and diagram-de.pdf.
+
 DEPENDENCIES
 
 This module requires these other modules and libraries:

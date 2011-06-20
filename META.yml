@@ -1,7 +1,7 @@
 --- #YAML:1.0
 name:               LaTeX-PGF-Diagram2D
-version:            1.00
-abstract:           Perl extension for drawing 2D diagrams
+version:            1.01
+abstract:           Perl extension for drawing 2D diagrams.
 author:
     - Dirk Krause <krause@localdomain>
 license:            unknown
@@ -11,7 +11,8 @@ configure_requires:
 build_requires:
     ExtUtils::MakeMaker:  0
 requires:
-    1:  1
+    Carp:  0
+    PDL:   0
 no_index:
     directory:
         - t

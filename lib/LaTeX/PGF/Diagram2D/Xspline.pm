@@ -362,3 +362,14 @@ sub calculate
 1;
 __END__
 
+
+=head1 NAME
+
+LaTeX::PGF::Diagram2D::Xspline - Perl extension for drawing 2D diagrams
+
+=head1 DESCRIPTION
+
+This class is used internally by the LaTeX::PGF::Diagram2D package.
+
+=cut
+

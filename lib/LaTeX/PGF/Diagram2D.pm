@@ -15,7 +15,7 @@ require LaTeX::PGF::Diagram2D::Label;
 require LaTeX::PGF::Diagram2D::Polyline;
 
 
-our $VERSION = '1.00';
+our $VERSION = '1.01';
 
 
 # Preloaded methods go here.
@@ -1207,7 +1207,7 @@ __END__
 
 =head1 NAME
 
-LaTeX::PGF::Diagram2D - Perl extension for drawing 2D diagrams
+LaTeX::PGF::Diagram2D - Perl extension for drawing 2D diagrams.
 
 =head1 SYNOPSIS
 
@@ -1250,7 +1250,8 @@ to have
 
   \usepackage{pgf}
 
-in the preamble.
+in the preamble. The *.pgf files can be used with both latex/dvips and
+pdflatex.
 
 Use code like
 
@@ -1261,15 +1262,12 @@ Use code like
   \end{figure}
 
 to include the produced graphics.
-  
 
-=head2 EXPORT
+=head1 EXPORT
 
 None by default.
 
-=head2 CLASSES
-
-=head3 Overview
+=head1 CLASSES
 
 The following classes are involved:
 
@@ -1289,16 +1287,16 @@ represents one item to plot (a function or a point set).
 
 =back
 
-=head3 LaTeX::PGF::Diagram2D
+=head1 Methods
 
-=head4 Constructor
+=head2 Constructor
 
 LaTeX::PGF::Diagram2D->new(width, height)
 
 creates a new diagram object. Width and height of the canvas are specified
 in centimeters.
 
-=head4 Setup
+=head2 Setup
 
 set_font_size(size)
 
@@ -1310,15 +1308,15 @@ returns a reference to the LaTeX::PGF::Diagram2D::Axis object for the name.
 The name can be one of ``bottom'', ``left'', ``right'' or ``top'' or
 one of the abbreviations ``b'', ``l'', ``r'' or ``t''.
 The object reference can be used to invoke the setup methods for the
-axis, see below.
+axis, see LaTeX::PGF::Diagram2D::Axis.
 
-=head4 Create plot objects
+=head2 Create plot objects
 
 plot(xaxisname, yaxisname)
 
 creates a new plot object and saves it to the diagram. A referernce to the
 LaTeX::PGF::Diagram2D::Plot object is returned, this reference can be used to
-configure the plot object, see below.
+configure the plot object, see LaTeX::PGF::Diagram2D::Plot.
 
 copy_plot(plotobjectreference)
 
@@ -1326,7 +1324,7 @@ duplicates a plot object and returns the reference to the new object.
 This is useful if you want to print i.e. a point set with an interpolation
 curve, so your need one object for the curve and another one for the dots.
 
-=head4 Additional graphics objects
+=head2 Additional graphics objects
 
 label(xaxisname, yaxisname, x, y, text [, anchor ])
 
@@ -1339,200 +1337,19 @@ polyline(xaxisname, yaxisname, arrayreference)
 creates a polyline object. The third parameter is a reference to an array
 containing the x- and y-coordinates for each point.
 
-=head4 Output
+=head2 Output
 
 write(filename)
 
 writes the graphics to the named file. If the filename suffix is ``.tex''
 an entire LaTeX file is written, a file containing a PGF image otherwise.
 
-=head3 LaTeX::PGF::Diagram2D::Axis
-
-=head4 Constructor
-
-You do not need to construct axis objects directly. Axis objects are created
-automatically by the constructor of LaTeX::PGF::Diagram2D. Use the axis()
-method of the diagram to obtain an axis reference.
-
-=head4 Axis values
-
-set_linear(min, max)
-
-sets a linear scale and assigns the specified minimum and maximum to the axis.
-
-set_logarithmic(min, max)
-
-uses a logarithmic scale. Both minimum and maximum must be positive.
-
-=head4 Grid and tics
-
-set_grid(step)
-
-chooses the step size for the grid. Negative values are used to disable the
-grid. A grid is only drawn for ``bottom'' and ``left'' axis.
-For linear axes the step is added to the minimum, and again... to find
-the values for grid positions.
-For logarithmic axes the step is used as a factor.
-
-set_tic_step(step)
-
-chooses the step size for showing scale values.
-
-=head4 Labels and units
-
-set_label(text)
-
-sets the axis label. Normally you should write this in LaTeX's math mode.
-
-set_unit(text)
-
-sets the text for the unit. Normally this is written upright.
-
-set_omit(number)
-
-decides whether or not to omit some scale values to free space to print
-the unit.
-
-Note: You must not omit scale value 0.
-
-set_color(color)
-
-sets the color for axis label and arrow. Choose a LaTeX color specification
-like ``blue'' or ``blue!50!black''.
-
-=head4 Distances and borders
-
-set_tic_offset(offset)
-setes the offset in cm between the canvas border and the right anchor of the
-scale value texts. For ``top'' and ``bottom'' axis this is the distance
-to the lower or upper text border.
-
-If you use the right y axis you will have to correct this offset in most
-cases.
-
-set_label_offset(offset)
-
-sets the offset between the canvas border and the center of the axis
-label.
-
-set_border(offset)
-
-sets the offset between canvas border and image border.
-
-=head3 LaTeX::PGF::Diagram2D::Plot
-
-=head4 Constructor
-
-You do not need to call the constructor directly, plot objects are constructed
-by the plot() or copy_plot() method of a diagram object.
-
-=head4 Data sources
-
-set_xy_fct(fct [, derivative ])
-
-sets the function to plot. Whenever possible you should specify the function
-for the first derivative too.
-Both functions must be implemented in your Perl program as a sub taking
-one argument (x). The argument to set_xy_fct() is a reference to the sub.
-
-set_parametric_fct(min, max, xfct, yfct [, xderivative, yderivative ])
-
-chooses parametric plotting and sets the start and end value for the
-parameter. The current value of the parameter is given to the xfct and
-yfct function as argument to find coordinates and to xderivative and
-yderivative to find the first derivative of x and y.
-
-set_xy_points(arrayref)
-
-chooses plotting of values. The argument to this function is an array
-reference. Each array entry is a reference to an array containing the
-coordinates of one point and optionally the first derivative in the point.
-
-I<Note:> For set_xy_points(), set_xy_points_text() and set_xy_points_file()
-the points must be sorted by rising x!
-
-set_xy_points_text(text)
-
-chooses plotting of values. The values are obtained from a text string.
-Each line is either empty or contains the data for one
-point: x value, y value and optionally dy/dx.
-
-set_xy_points_file(filename)
-
-chooses plotting of values. The values are obtained from a text file. Each
-line is either empty or contains data for one point:
-x value, y value and optionally dy/dx.
-
-set_xsplines_points(arrayref [, s_default ])
-
-chooses X-spline plotting. The argument to this function is a reference to an
-array containing control point data. For each control point there is one
-reference to an array. The control point array contains x value, y value
-and optionally an s value. If the s value is omitted the default value
-s_default is used or -1 if no s_default value was specified.
-
-set_xsplines_points_text(text [, s_default ])
-
-chooses X-spline plotting. Point values are obtained from a text string,
-each line is either empty or contains one control point:
-x value, y value and optionally s value.
-
-set_xsplines_points_file(filename [, s_default ])
-
-chooses X-spline plotting. Point values are obtained from a text file.
-Each line in the file is either empty or contains one control point:
-x value, y value and optionally s value.
-
-set_xsplines_number(number)
-
-sets the number of Bezier spline segments to create per X-spline segment.
-X-splines are 5th grade curves, Bezier splines are 3rd grade curves.
-So we use multiple Bezier spline segments to draw one X-spline segment.
-Normally the default 8 is sufficient.
-
-=head4 Configuring output
-
-set_intervals(number)
-
-specifies the number of curve intervals to print (for xy function plotting
-and parametric function plotting).
-
-set_curve()
-
-sets output style to curve.
-
-set_lines()
-
-sets output style to polyline.
-
-set_dots( [ style [, size ]])
-
-sets output style to dots and chooses a style (``circle'', ``square'',
-``diamond'', ``triangle'', ``crosshair'' or ``pentagon'') and dot size.
-The dot size is specified as multiples of the line size (default: 5).
-
-set_color(color)
-
-chooses a color for the plot.
-
-=head4 Preparing output
-
-finish()
-
-caluculates function and derivative values for function plotting
-immediately. This is useful if your function uses a Perl variable as
-function parameter and you want to change the variable.
-
 =head1 SEE ALSO
 
-Mention other useful documentation such as the documentation of
-related modules or operating system documentation (such as man pages
-in UNIX), or any relevant external documentation such as RFCs or
-standards.
-
-If you have a mailing list set up for your module, mention it here.
-
-If you have a web site set up for your module, mention it here.
+LaTeX::PGF::Diagram2D::Axis.pm
+LaTeX::PGF::Diagram2D::Label.pm
+LaTeX::PGF::Diagram2D::Plot.pm
+LaTeX::PGF::Diagram2D::Polyline.pm
 
 =head1 AUTHOR
 
