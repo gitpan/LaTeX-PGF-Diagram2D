@@ -15,7 +15,7 @@ require LaTeX::PGF::Diagram2D::Label;
 require LaTeX::PGF::Diagram2D::Polyline;
 
 
-our $VERSION = '1.01';
+our $VERSION = '1.02';
 
 
 # Preloaded methods go here.

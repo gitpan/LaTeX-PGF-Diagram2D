@@ -16,11 +16,19 @@ To install this module type the following:
    make
    make install
 
-To build the documentation run
+DOCUMENTATION
+
+After installing the module you can run
 
   ./build-docu.sh
 
-This generates the files diagram-en.pdf and diagram-de.pdf.
+or
+
+  build-docu.bat
+
+to build the documentation.
+This generates the files diagram-en.pdf and diagram-de.pdf
+containing a tutorial in English and German language.
 
 DEPENDENCIES
 
@@ -30,8 +38,6 @@ This module requires these other modules and libraries:
   Carp
 
 COPYRIGHT AND LICENCE
-
-Put the correct copyright and licence information here.
 
 Copyright (C) 2011 by Dirk Krause
 

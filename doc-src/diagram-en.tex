@@ -79,7 +79,7 @@ Ri=4.0
 set xrange [0:10.0]
 plot Uq/(Ri+x) title "Strom"
 \end{lstlisting}
-The maximum current is \(\tfrac{1}{4}\,\text{A}\), wo we use a grid with
+The maximum current is \(\tfrac{1}{4}\,\text{A}\), so we use a grid with
 of 10\,cm and a grid height of 6\,cm to show currents up to 0,3\,A.
 
 \clearpage
@@ -135,7 +135,7 @@ The arrows are added automatically to the axis labels.
 The unit is placed between the last two scale values.
 \clearpage
 \subsection[Space for unit]{Example 3: More space for the unit}
-\includepgfimage{../examples/test003a}{More space for \(x\) axis unt}
+\includepgfimage{../examples/test003a}{More space for \(x\) axis unit}
 In the previous example there is very few space between ``9'', ``\(\Omega\)''
 and ``10''. So we decide to omit one scale value. If necessary we could
 omit multiple values but we are not allowed to omit value ``0''.
@@ -428,7 +428,12 @@ spline interpolation is printed.
 \includepgfimage{../examples/test015a}{Data plot using X-splines}
 The LaTeX::PGF::Diagram2D modules curve drawing doesn't smooth the
 curve, so the previous examples looks a little ``rough''.
-To smooth the curve we can use X-splines. An X-spline is a contiguous
+To smooth the curve we can use X-splines.
+Cross-splines (X-splines) were introduced by Carole Blanc und Christophe Schlick
+on the \textsc{siggraph}'95. In the conference proceedings you can find the
+article online as:
+``X-Splines: A Spline Model Designed for the End-User''.\\
+An X-spline is a contiguous
 curve specified by a set of control points. For each control point
 we have the coordinates \(x\) and \(y\) and a paramter \(s\).
 For \(-1\leq{}s<0\) the curve is interpolated in the point.
@@ -928,7 +933,7 @@ Now we choose a smaller \(s\)-value for (4;2) and (6;6)
 (\(-\tfrac{1}{2}\)). This allows smaller radii in these points
 and reduces oscillations.
 \lstinputlisting[language=Perl,title={../examples/test021a.pl}]{../examples/test021a.pl}
-\includepgfimage{../examples/test021a}{X-spline interpolation smaller, curve radii}
+\includepgfimage{../examples/test021a}{X-spline interpolation, smaller curve radii}
 \clearpage
 For approximation we use
 \(s=1,0\) we specify the value as second argument to

@@ -19,8 +19,6 @@ ECHO Processing test008a.pl
 perl test008a.pl
 ECHO Processing test009a.pl
 perl test009a.pl
-ECHO Processing test010a.pl
-perl test010a.pl
 ECHO Processing test011a.pl
 perl test011a.pl
 ECHO Processing test012a.pl
